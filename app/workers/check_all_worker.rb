@@ -1,13 +1,14 @@
-class CheckAllWorker
-    include Sidekiq::Worker
+# frozen_string_literal: true
 
-    def perform
-        domains = Domain.all
-        domains.each do |domain| 
-            domain.status = "not_ok"
-            domain.process
-            domain.save
-        end
+class CheckAllWorker
+  include Sidekiq::Worker
+
+  def perform
+    domains = Domain.all
+    domains.each do |domain|
+      domain.status = 'not_ok'
+      domain.process
+      domain.save
     end
+  end
 end
-  
