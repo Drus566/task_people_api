@@ -1,24 +1,51 @@
-# README
+# Task people api
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Тестовое задание Rails
+Необходимо реализовать приложение, которое реализует следующий
+функционал:
+* В базу добавляются домены, для которых нужно отслеживать проблемы с SSL сертификатами
+* Нельзя дважды добавить один и тот же домен
+* У домена есть два статуса - "всё хорошо" и "всё плохо"
+* По результатам проверки, у домена меняется статус
+* Текст ошибки должен сохраняться в той же модели
+* Проверки должны происходить в фоне, раз в 20 минут
+* Нужно подключить веб-интерфейс sidekiq и закрыть его Basic-авторизацией
 
-Things you may want to cover:
+> Для проверки можно использовать openssl, проверка должна происходить внутри приложения, без использования сторонних API и сервисов. Интерфейс реализовывать не нужно, только API.
 
-* Ruby version
+## Технологии и пакеты
+Обязательно использовать следующие решения и пакеты: 
+* Rails 6 
+* grape
+* grape-entity
+* PostgreSQL
+* sidekiq
+* sidekiq-scheduler.
 
-* System dependencies
+Postgres и Redis (нужен для sidekiq) запускать через docker-compose, для приложения нужно написать `Procfile`. Для управления состоянием у доменов можно использовать AASM. Бонусные баллы за настроенный rubocop и следование ему. 
 
-* Configuration
+## Отслеживаемые параметры
+1. Сертификат истекает менее чем через 2 недели
+2. Сертификат истекает менее чем через 1 неделю
+3. Сертификат истёк
+4. Ошибка SSL (для тестов можно использовать badssl.com и их примеры)
+5. Ошибка установки соединения, не связанная с SSL
+6. "Всё хорошо"
 
-* Database creation
+## API
+### Необходимо реализовать следующие методы:
+* выводит все домены с их текущим состоянием
+* добавляет новый домен в список, при добавлении домена должна сразу же кидаться задача на проверку
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## Ветка Docker
+Должны быть установлены Docker и Docker compose
+### Команды
+```
+git clone git@github.com:Drus566/task_people_api.git
+sudo docker-compose up -d
+sudo docker-compose exec app bundle exec rake db:setup db:migrate
+# чтобы остановить контейнеры
+sudo docker-compose down
+# чтобы остановить и удалить созданную в контейнере базу данных 
+sudo docker-compose down --volumes
+```
