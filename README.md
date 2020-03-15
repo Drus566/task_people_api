@@ -42,7 +42,9 @@ Postgres и Redis (нужен для sidekiq) запускать через dock
 ### Команды
 ```
 git clone git@github.com:Drus566/task_people_api.git
+# установка докера
 sudo docker-compose up -d
+# установка базы данных
 sudo docker-compose exec app bundle exec rake db:setup db:migrate
 # чтобы остановить контейнеры
 sudo docker-compose down
