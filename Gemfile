@@ -12,6 +12,7 @@ gem 'grape-entity'
 gem 'grape_on_rails_routes'
 gem 'sidekiq'
 gem 'sidekiq-scheduler'
+# gem 'rubocop'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.2', '>= 6.0.2.1'
